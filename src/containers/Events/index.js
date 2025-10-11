@@ -10,25 +10,29 @@ import "./style.css";
 const PER_PAGE = 9;
 
 const EventList = () => {
-  const { data, error } = useData();
-  const [type, setType] = useState();
-  const [currentPage, setCurrentPage] = useState(1);
-  const filteredEvents = ((data?.events) || []).filter((event, index) => {
-    const start = (currentPage -1) * PER_PAGE
-    const end = currentPage * PER_PAGE
-    const isOnPage = index >= start && index < end
+  const { data, error } = useData()
+  const [type, setType] = useState()
+  const [currentPage, setCurrentPage] = useState(1)
+ 
+  const events = data?.events || []
 
-    const isFiltered = !type || event.type === type
-    
-    return isOnPage && isFiltered
-  })
+  // filtre par type (ou tout si type false)
+  const filteredByType = events.filter((event) => !type || event.type === type)
+
+  // nombre de pages exact
+  const pageNumber = Math.ceil((filteredByType.length || 0) / PER_PAGE)
+
+  // nombre d'elements par page
+  const start = (currentPage - 1) * PER_PAGE
+  const filteredEvents = filteredByType.slice(start, start + PER_PAGE)
 
   const changeType = (evtType) => {
     setCurrentPage(1)
-    setType(evtType);
-  };
-  const pageNumber = Math.floor((filteredEvents?.length || 0) / PER_PAGE) + 1;
-  const typeList = new Set(data?.events.map((event) => event.type));
+    setType(evtType)
+  }
+
+  // nouveau tableau d'events filtres
+  const typeList = Array.from(new Set(events.map((event) => event.type)))
 
   return (
     <>
