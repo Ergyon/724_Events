@@ -8,6 +8,7 @@ const Slider = () => {
   const { data } = useData();
   const [index, setIndex] = useState(0);
   const byDateDesc = data?.focus.sort((evtA, evtB) =>
+    // trier dans l'ordre croissant et non decroissant
     new Date(evtA.date) < new Date(evtB.date) ? -1 : 1
   );
   const nextCard = () => {
@@ -26,8 +27,7 @@ const Slider = () => {
           <div
             key={event.title}
             className={`SlideCard SlideCard--${
-              index === idx ? "display" : "hide"
-            }`}
+              index === idx ? "display" : "hide"}`}
           >
             <img src={event.cover} alt="forum" />
             <div className="SlideCard__descriptionContainer">
@@ -40,12 +40,13 @@ const Slider = () => {
           </div>
           <div className="SlideCard__paginationContainer">
             <div className="SlideCard__pagination">
-              {byDateDesc.map((_, radioIdx) => (
+              {/* bonne indexation sur l'event local */}
+              {byDateDesc.map((e, radioIdx) => (
                 <input
-                  key={`${event.id}`}
+                  key={e.id}
                   type="radio"
                   name="radio-button"
-                  checked={idx === radioIdx}
+                  checked={index === radioIdx}
                 />
               ))}
             </div>
