@@ -1,16 +1,16 @@
-import Menu from "../../containers/Menu";
-import ServiceCard from "../../components/ServiceCard";
 import EventCard from "../../components/EventCard";
 import PeopleCard from "../../components/PeopleCard";
+import ServiceCard from "../../components/ServiceCard";
+import Menu from "../../containers/Menu";
 
-import "./style.scss";
-import EventList from "../../containers/Events";
-import Slider from "../../containers/Slider";
-import Logo from "../../components/Logo";
 import Icon from "../../components/Icon";
+import Logo from "../../components/Logo";
+import EventList from "../../containers/Events";
 import Form from "../../containers/Form";
 import Modal from "../../containers/Modal";
+import Slider from "../../containers/Slider";
 import { useData } from "../../contexts/DataContext";
+import "./style.scss";
 
 const Page = () => {
   const {last} = useData()
@@ -115,14 +115,18 @@ const Page = () => {
     </main>
     <footer className="row">
       <div className="col presta">
-        <h3>Notre derniére prestation</h3>
-        <EventCard
-          imageSrc={last?.cover}
-          title={last?.title}
-          date={new Date(last?.date)}
-          small
-          label="boom"
-        />
+        {last && (
+          <>
+          <h3>Notre derniére prestation</h3>
+          <EventCard
+            imageSrc={last.cover}
+            title={last.title}
+            date={new Date(last.date)}
+            small
+            label="boom"
+          />       
+          </>
+        )}
       </div>
       <div className="col contact">
         <h3>Contactez-nous</h3>
